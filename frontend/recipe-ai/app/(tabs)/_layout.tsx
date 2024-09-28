@@ -1,5 +1,5 @@
 import { Tabs } from "expo-router";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
@@ -79,6 +79,18 @@ export default function TabLayout() {
             />
           ),
           // tabBarItemStyle: { backgroundColor: "red"},
+        }}
+      />
+      <Tabs.Screen
+        name="camera"
+        options={{
+          title: "Camera",
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "camera" : "camera-outline"}
+              color={color}
+            />
+          ),
         }}
       />
     </Tabs>
