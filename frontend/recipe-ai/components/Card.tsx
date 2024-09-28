@@ -17,7 +17,7 @@ const Card = ({ id, title, subtitle, image }: CardProps) => {
     >
       <Pressable style={styles.container}>
         <Image
-          source={require("@/assets/images/spaghetti.jpg")}
+          source={{ uri: image }}
           style={styles.image}
           resizeMode="cover"
         />
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 250,
+    height: 220,
     borderRadius: 15,
   },
   text: {

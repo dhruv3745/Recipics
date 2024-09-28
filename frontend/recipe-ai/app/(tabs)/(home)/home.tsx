@@ -29,8 +29,8 @@ export const Home = () => {
               <Card
                 id={recipe.id}
                 title={recipe.name}
-                subtitle="300 calories • 20 min"
-                image=""
+                subtitle={`${recipe.calories} calories • ${recipe.time}`}
+                image={recipe.image}
                 key={recipe.id}
               />
             ))}
