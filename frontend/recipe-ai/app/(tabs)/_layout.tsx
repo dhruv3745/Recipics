@@ -52,6 +52,7 @@ export default function TabLayout() {
               color={color}
             />
           ),
+          href: null,
         }}
       />
       <Tabs.Screen
@@ -64,21 +65,19 @@ export default function TabLayout() {
               color={color}
             />
           ),
+          href: null,
         }}
       />
-      <Tabs.Screen name="(home)" options={{ title: "Home v2" }} />
       <Tabs.Screen
-        name="preferences"
+        name="(home)"
         options={{
-          title: "Preferences",
-          headerShown: true,
+          title: "Home",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
-              name={focused ? "settings" : "settings-outline"}
+              name={focused ? "home" : "home-outline"}
               color={color}
             />
           ),
-          // tabBarItemStyle: { backgroundColor: "red"},
         }}
       />
       <Tabs.Screen
@@ -91,6 +90,20 @@ export default function TabLayout() {
               color={color}
             />
           ),
+        }}
+      />
+      <Tabs.Screen
+        name="preferences"
+        options={{
+          title: "Preferences",
+          headerShown: true,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "settings" : "settings-outline"}
+              color={color}
+            />
+          ),
+          // tabBarItemStyle: { backgroundColor: "red"},
         }}
       />
     </Tabs>

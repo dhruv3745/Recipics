@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   Pressable,
   Text,
+  TouchableOpacity,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -49,18 +50,26 @@ const CameraScreen = () => {
     <SafeAreaView style={styles.container}>
       {!image ? (
         <>
-          <Pressable onPress={takePicture} style={styles.button}>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={takePicture}
+            style={styles.button}
+          >
             <View style={styles.imageContainer}>
               <FontAwesome style={styles.icon} name="camera" color="black" />
               <Text style={styles.text}>Take a picture</Text>
             </View>
-          </Pressable>
-          <Pressable onPress={pickImage} style={styles.button}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={pickImage}
+            style={styles.button}
+          >
             <View style={styles.imageContainer}>
               <Feather name="upload" style={styles.icon} color="black" />
               <Text style={styles.text}>Upload from library</Text>
             </View>
-          </Pressable>
+          </TouchableOpacity>
         </>
       ) : (
         <>
@@ -94,7 +103,7 @@ const styles = StyleSheet.create({
     width: "auto",
     height: "30%",
     aspectRatio: 1,
-    backgroundColor: "lightgrey",
+    backgroundColor: "#c8b8ac",
     borderRadius: 30,
   },
   imageContainer: {
