@@ -4,7 +4,9 @@ from pytesseract import Output
 import numpy as np
 import cv2
 
+# Insert the file path to your tesseract.exe file here
 pytesseract.pytesseract.tesseract_cmd = r'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
+# Insert the file path to your receipt image here
 filename = 'C:\\Users\\litte\\OneDrive\\Pictures\\Camera Roll\\ThirdReceipt.jpg'
 
 def image_to_text(input_path):
