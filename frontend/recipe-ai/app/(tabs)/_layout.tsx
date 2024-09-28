@@ -67,7 +67,20 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen name="(home)" options={{ title: "Home v2" }} />
-      {/* <Tabs.Screen name="(home)/recipes/[id]" options={{ href: null }} /> */}
+      <Tabs.Screen
+        name="preferences"
+        options={{
+          title: "Preferences",
+          headerShown: true,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "settings" : "settings-outline"}
+              color={color}
+            />
+          ),
+          // tabBarItemStyle: { backgroundColor: "red"},
+        }}
+      />
     </Tabs>
   );
 }
