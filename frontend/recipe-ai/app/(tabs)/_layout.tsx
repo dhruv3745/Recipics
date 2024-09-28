@@ -66,7 +66,8 @@ export default function TabLayout() {
           ),
         }}
       />
-      {/* <Tabs.Screen name="recipes/[id]" options={{ href: null }} /> */}
+      <Tabs.Screen name="(home)" options={{ title: "Home v2" }} />
+      {/* <Tabs.Screen name="(home)/recipes/[id]" options={{ href: null }} /> */}
     </Tabs>
   );
 }

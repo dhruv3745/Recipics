@@ -11,7 +11,10 @@ interface CardProps {
 
 const Card = ({ id, title, subtitle, image }: CardProps) => {
   return (
-    <Link href={{ pathname: "/recipes/[id]", params: { id: id } }} asChild>
+    <Link
+      href={{ pathname: "/(tabs)/(home)/recipes/[id]", params: { id: id } }}
+      asChild
+    >
       <Pressable style={styles.container}>
         <Image
           source={require("@/assets/images/spaghetti.jpg")}
