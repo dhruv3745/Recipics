@@ -10,24 +10,22 @@ import {
 } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { Button, TextField } from "react-native-ui-lib";
-import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const IngredientsScreen = () => {
   const { ingredients } = useLocalSearchParams();
   const [parsedIngredients, setParsedIngredients] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
+  const [dietLabels, setDietLabels] = useState<string[]>([]);
+  const [healthLabels, setHealthLabels] = useState<string[]>([]);
+  const [cuisineType, setCuisineType] = useState<string[]>([]);
 
-  const dietLabels: string[] = [];
-  const healthLabels: string[] = [];
-  const cuisineType: string[] = [];
-
-  // Function to load selected ingredients from AsyncStorage
-  const loadSelectedIngredients = async () => {
+  const loadPreferences = async () => {
     try {
       const storedData = await AsyncStorage.getItem("userPreferences");
       if (storedData) {
-        const { selectedIngredients } = JSON.parse(storedData);
-        // Assuming you have a function or array that maps indices to ingredient names
+        const { selectedIngredients, dietLabels, healthLabels, cuisineType } = JSON.parse(storedData);
         const ingredientList = [
           "Butter",
           "Salt",
@@ -57,20 +55,22 @@ const IngredientsScreen = () => {
         const ingredients = selectedIngredients.map(
           (index: number) => ingredientList[index]
         );
-        setParsedIngredients(ingredients);
+        setSelectedIngredients(ingredients);
+        setDietLabels(dietLabels || []);
+        setHealthLabels(healthLabels || []);
+        setCuisineType(cuisineType || []);
       } else {
-        // Fallback if no stored data
         if (ingredients) {
           setParsedIngredients(JSON.parse(String(ingredients)));
         }
       }
     } catch (error) {
-      console.error("Failed to load selected ingredients:", error);
+      console.error("Failed to load preferences:", error);
     }
   };
 
   useEffect(() => {
-    loadSelectedIngredients(); // Load selected ingredients when the component mounts
+    loadPreferences();
   }, [ingredients]);
 
   const onDelete = (index: number) => {
@@ -81,15 +81,16 @@ const IngredientsScreen = () => {
 
   const fetchRecipes = () => {
     setLoading(true);
+    const combinedIngredients = [...parsedIngredients, ...selectedIngredients];
+
     fetch(
       `http://128.61.70.242:5001/find_recipe?ingredients=${encodeURIComponent(
-        parsedIngredients.join(",")
-      )}?dietLabels=${encodeURIComponent(
+        combinedIngredients.join(",")
+      )}&dietLabels=${encodeURIComponent(
         dietLabels.join(",")
-      )}?healthLabels=${encodeURIComponent(
+      )}&healthLabels=${encodeURIComponent(
         healthLabels.join(",")
-      )}?cuisineType=${encodeURIComponent(cuisineType.join(","))}`,
-
+      )}&cuisineType=${encodeURIComponent(cuisineType.join(","))}`,
       {
         method: "GET",
         headers: {
