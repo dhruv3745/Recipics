@@ -51,7 +51,7 @@ const dietaryPreferenceList = [
 ];
 
 // New diet options
-const dietList = [
+const healthDataList = [
   "Balanced",
   "High-fiber",
   "High-protein",
@@ -60,10 +60,6 @@ const dietList = [
   "Low-sodium",
 ];
 
-<<<<<<< HEAD
-// New meal-time options
-const mealTimeList = ["Breakfast", "Dinner", "Lunch", "Snack", "Teatime"];
-=======
 // New cuisine type list
 const cuisineTypeList = [
   "American",
@@ -85,7 +81,6 @@ const cuisineTypeList = [
   "South American",
   "South East Asian",
 ];
->>>>>>> refs/remotes/origin/main
 
 type IngredientOption = {
   label: string;
@@ -95,7 +90,7 @@ type IngredientOption = {
 const PreferencesScreen = () => {
   const [selectedIngredients, setSelectedIngredients] = useState<number[]>([]);
   const [dietaryPreferences, setDietaryPreferences] = useState<number[]>([]);
-  const [diet, setDiet] = useState<number[]>([]);
+  const [healthData, setHealthData] = useState<number[]>([]);
   const [cuisineType, setCuisineType] = useState<number[]>([]); // Updated to cuisine type
 
   // State for options
@@ -115,9 +110,9 @@ const PreferencesScreen = () => {
     }))
   );
 
-  const [dietOptions, setDietOptions] = useState<IngredientOption[]>(
-    dietList.map((dietOption, index) => ({
-      label: dietOption,
+  const [healthDataOptions, setHealthDataOptions] = useState<IngredientOption[]>(
+    healthDataList.map((healthDataOption, index) => ({
+      label: healthDataOption,
       value: index,
     }))
   );
@@ -137,12 +132,12 @@ const PreferencesScreen = () => {
         const {
           selectedIngredients,
           dietaryPreferences,
-          diet,
+          healthData,
           cuisineType, // Updated from mealTime to cuisineType
         } = JSON.parse(storedData);
         setSelectedIngredients(selectedIngredients || []);
         setDietaryPreferences(dietaryPreferences || []);
-        setDiet(diet || []);
+        setHealthData(healthData || []);
         setCuisineType(cuisineType || []); // Updated to set cuisineType
       } else {
         // Default: select all ingredients
@@ -158,15 +153,9 @@ const PreferencesScreen = () => {
     try {
       const preferences = {
         selectedIngredients,
-<<<<<<< HEAD
-        healthLabels: dietaryPreferences,
-        dietLabels: diet,
-        mealTime,
-=======
         dietaryPreferences,
-        diet,
+        healthData,
         cuisineType, // Updated from mealTime to cuisineType
->>>>>>> refs/remotes/origin/main
       };
       await AsyncStorage.setItem(
         "userPreferences",
@@ -183,7 +172,7 @@ const PreferencesScreen = () => {
 
   useEffect(() => {
     savePreferences(); // Save preferences whenever they change
-  }, [selectedIngredients, dietaryPreferences, diet, cuisineType]); // Updated to include cuisineType
+  }, [selectedIngredients, dietaryPreferences, healthData, cuisineType]); // Updated to include cuisineType
 
   return (
     <SafeAreaView style={styles.container}>
@@ -228,28 +217,24 @@ const PreferencesScreen = () => {
 
         {/* Diet Picker */}
         <Picker
-          label={`Diet ${diet.length ? `(${diet.length})` : ""}`}
+          label={`healthData ${healthData.length ? `(${healthData.length})` : ""}`}
           placeholder={
-            diet.length === 0 ? "Select diet" : `Selected ${diet.length}`
+            healthData.length === 0 ? "Select diet" : `Selected ${healthData.length}`
           }
           labelStyle={styles.labelText}
           style={styles.picker}
           trailingAccessory={<Entypo name="chevron-small-down" size={24} />}
           mode={Picker.modes.MULTI}
-          value={diet}
-          onChange={setDiet} // Update diet selection
-          items={dietOptions}
+          value={healthData}
+          onChange={setHealthData} // Update diet selection
+          items={healthDataOptions}
         />
 
         {/* Cuisine Type Picker */} {/* Updated from Meal-time to Cuisine Type */}
         <Picker
-<<<<<<< HEAD
-          label={`Meal-time ${mealTime.length ? `(${mealTime.length})` : ""}`}
-=======
           label={`Cuisine Type ${
             cuisineType.length ? `(${cuisineType.length})` : ""
           }`}
->>>>>>> refs/remotes/origin/main
           placeholder={
             cuisineType.length === 0
               ? "Select cuisine type"

@@ -78,6 +78,7 @@ const IngredientsScreen = () => {
     loadPreferences();
     if (ingredients) {
       setParsedIngredients(JSON.parse(String(ingredients)));
+      console.log(parsedIngredients);
     }
     console.log(dietLabels, healthLabels, cuisineType);
   }, [ingredients]);
