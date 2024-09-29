@@ -18,7 +18,9 @@ hashmap = {
     "mushroom": ["chanterelle mushrooms", "chestnut mushrooms", "chinese mushrooms", "field mushroom", "morel", "porcini", "shiitake mushroom", "straw mushroom", "wild mushrooms"],
     "tomato": ["cherry tomatoes", "chopped tomatoes", "sun-dried tomatoes", "tomato", "tomato chutney", "tomatoes"],
     "potato": ["charlotte potato", "desiree", "jacket potato", "new potatoes", "pink fir apple", "potato", "potato rosti", "potato wedges", "waxy potato"],
-    "oil": ["argan oil", "corn oil", "grapeseed oil", "hazelnut oil", "mustard oil", "olive oil", "peanut oil", "rapeseed oil", "safflower oil", "sesame oil", "soya oil", "sunflower oil", "vegetable oil", "walnut oil"]
+    "oil": ["argan oil", "corn oil", "grapeseed oil", "hazelnut oil", "mustard oil", "olive oil", "peanut oil", "rapeseed oil", "safflower oil", "sesame oil", "soya oil", "sunflower oil", "vegetable oil", "walnut oil"],
+    "avacado": ["avocado"],
+    "potatoes": ["new potatoes"]
 }
 
 def map_ingredients(ingredients):

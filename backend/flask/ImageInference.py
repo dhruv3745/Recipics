@@ -18,7 +18,7 @@ def infer_on_image(path):
         if prediction["confidence"] < 0.45:
             continue
         # remove last 8 characters from the class name
-        ingredients.append(prediction["class"][:-8].lower())
+        ingredients.append(prediction["class"].lower())
 
     return ingredients
 
