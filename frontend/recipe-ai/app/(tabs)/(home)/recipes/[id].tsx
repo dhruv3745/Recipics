@@ -3,7 +3,6 @@ import {
   Text,
   SafeAreaView,
   View,
-  Image,
   ScrollView,
   Linking,
 } from "react-native";
@@ -60,7 +59,7 @@ const RecipeScreen = () => {
     <SafeAreaView style={styles.container}>
       <ScrollView
         style={styles.body}
-        contentContainerStyle={{ alignItems: "center" }}
+        contentContainerStyle={styles.scrollContentContainer}
       >
         {/* <Image style={styles.image} source={{ uri: image }} /> */}
         <View style={styles.descriptionContainer}>
@@ -98,15 +97,16 @@ const RecipeScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
+    flex: 1, // Ensure SafeAreaView takes up the full available height
+    backgroundColor: "orange",
   },
   body: {
-    flex: 1,
-    width: "100%",
-    padding: 50,
+    width: "100%", // Ensure the ScrollView takes up full width
+  },
+  scrollContentContainer: {
+    padding: 40, // Use smaller padding to ensure content remains on screen
+    alignItems: "center",
+    flexGrow: 1, // Ensure that ScrollView's content can grow to fill the available space
   },
   text: {
     color: "black",

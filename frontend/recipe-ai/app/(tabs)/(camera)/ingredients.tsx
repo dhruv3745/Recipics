@@ -1,5 +1,5 @@
-import { router, useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
+import { useCallback, useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -11,6 +11,12 @@ import {
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { Button, TextField } from "react-native-ui-lib";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  assumedIngredients,
+  cuisineTypeList,
+  dietaryPreferenceList,
+  healthDataList,
+} from "@/utils/constants";
 
 const IngredientsScreen = () => {
   const { ingredients } = useLocalSearchParams();
@@ -22,57 +28,50 @@ const IngredientsScreen = () => {
   const [healthLabels, setHealthLabels] = useState<string[]>([]);
   const [cuisineType, setCuisineType] = useState<string[]>([]);
 
+  const [error, setError] = useState<string | null>(null);
+
   const loadPreferences = async () => {
     try {
       const storedData = await AsyncStorage.getItem("userPreferences");
+
       if (storedData) {
         const {
           selectedIngredients,
-          dietPreferences,
+          dietaryPreferences,
           healthData,
           cuisineType,
         } = JSON.parse(storedData);
 
-        const ingredientList = [
-          "Butter",
-          "Salt",
-          "Pepper",
-          "Oil",
-          "Flour",
-          "Rice",
-          "Milk (or substitute)",
-          "Honey",
-          "Garlic (or garlic powder)",
-          "Vanilla Extract",
-          "Baking Powder",
-          "Baking Soda",
-          "Cornstarch",
-          "Onion Powder",
-          "Cinnamon",
-          "Cumin",
-          "Paprika",
-          "Turmeric",
-          "Ginger",
-          "Basil",
-          "Oregano",
-          "Thyme",
-          "Rosemary",
-          "Parsley",
-        ];
-
         const ingredients = selectedIngredients.map(
-          (index: number) => ingredientList[index]
+          (index: number) => assumedIngredients[index]
         );
+        const dietPreferences2 = dietaryPreferences.map(
+          (index: number) => dietaryPreferenceList[index]
+        );
+        const healthData2 = healthData.map(
+          (index: number) => healthDataList[index]
+        );
+        const cuisineType2 = cuisineType.map(
+          (index: number) => cuisineTypeList[index]
+        );
+
         setSelectedIngredients(ingredients);
-        setHealthLabels(healthData || []);
-        setDietLabels(dietPreferences || []);
-        setCuisineType(cuisineType || []);
+        setHealthLabels(healthData2 || []);
+        setDietLabels(dietPreferences2 || []);
+        setCuisineType(cuisineType2 || []);
       } else {
       }
     } catch (error) {
       console.error("Failed to load preferences:", error);
     }
   };
+
+  // This effect re-runs every time the screen is focused
+  useFocusEffect(
+    useCallback(() => {
+      loadPreferences();
+    }, [])
+  );
 
   useEffect(() => {
     loadPreferences();
@@ -90,6 +89,7 @@ const IngredientsScreen = () => {
   };
 
   const fetchRecipes = () => {
+    setError(null);
     setLoading(true);
 
     const combinedIngredients = [...parsedIngredients, ...selectedIngredients];
@@ -130,6 +130,14 @@ const IngredientsScreen = () => {
       })
       .then((data) => {
         router.navigate("/(camera)");
+
+        console.log(data);
+
+        if (data.length === 0) {
+          setError("No recipes found. Please try again.");
+          return;
+        }
+
         router.replace({
           pathname: "/(tabs)/results",
           params: { data: JSON.stringify(data) },
@@ -198,6 +206,18 @@ const IngredientsScreen = () => {
           }}
           ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
         />
+        {error && (
+          <Text
+            style={{
+              textAlign: "center",
+              fontFamily: "Inter_400Regular",
+              marginBottom: 10,
+              color: "red",
+            }}
+          >
+            {error}
+          </Text>
+        )}
         <Button
           label="Find a Recipe"
           style={{ backgroundColor: "#920003" }}

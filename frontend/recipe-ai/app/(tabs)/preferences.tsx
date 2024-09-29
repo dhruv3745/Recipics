@@ -3,6 +3,11 @@ import { Picker } from "react-native-ui-lib";
 import Entypo from "@expo/vector-icons/Entypo";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  cuisineTypeList,
+  dietaryPreferenceList,
+  healthDataList,
+} from "@/utils/constants";
 
 // Updated ingredients list
 const ingredientList = [
@@ -30,56 +35,6 @@ const ingredientList = [
   "Thyme",
   "Rosemary",
   "Parsley",
-];
-
-// Updated dietary preference list
-const dietaryPreferenceList = [
-  "Gluten-free",
-  "Vegetarian",
-  "Vegan",
-  "Low-fat",
-  "Low-sugar",
-  "Dairy-free",
-  "Egg-free",
-  "Peanut-free",
-  "Red-meat-free",
-  "Fish-free",
-  "Immuno-supportive",
-  "Keto-friendly",
-  "Kosher",
-  "Soy-free",
-];
-
-// New diet options
-const healthDataList = [
-  "Balanced",
-  "High-fiber",
-  "High-protein",
-  "Low-carb",
-  "Low-fat",
-  "Low-sodium",
-];
-
-// New cuisine type list
-const cuisineTypeList = [
-  "American",
-  "Asian",
-  "British",
-  "Caribbean",
-  "Central Europe",
-  "Chinese",
-  "Eastern Europe",
-  "French",
-  "Indian",
-  "Italian",
-  "Japanese",
-  "Kosher",
-  "Mediterranean",
-  "Mexican",
-  "Middle Eastern",
-  "Nordic",
-  "South American",
-  "South East Asian",
 ];
 
 type IngredientOption = {
@@ -110,14 +65,18 @@ const PreferencesScreen = () => {
     }))
   );
 
-  const [healthDataOptions, setHealthDataOptions] = useState<IngredientOption[]>(
+  const [healthDataOptions, setHealthDataOptions] = useState<
+    IngredientOption[]
+  >(
     healthDataList.map((healthDataOption, index) => ({
       label: healthDataOption,
       value: index,
     }))
   );
 
-  const [cuisineTypeOptions, setCuisineTypeOptions] = useState<IngredientOption[]>( // Updated to use cuisine type
+  const [cuisineTypeOptions, setCuisineTypeOptions] = useState<
+    IngredientOption[]
+  >( // Updated to use cuisine type
     cuisineTypeList.map((cuisineTypeOption, index) => ({
       label: cuisineTypeOption,
       value: index,
@@ -135,6 +94,7 @@ const PreferencesScreen = () => {
           healthData,
           cuisineType, // Updated from mealTime to cuisineType
         } = JSON.parse(storedData);
+
         setSelectedIngredients(selectedIngredients || []);
         setDietaryPreferences(dietaryPreferences || []);
         setHealthData(healthData || []);
@@ -157,6 +117,7 @@ const PreferencesScreen = () => {
         healthData,
         cuisineType, // Updated from mealTime to cuisineType
       };
+
       await AsyncStorage.setItem(
         "userPreferences",
         JSON.stringify(preferences)
@@ -177,7 +138,6 @@ const PreferencesScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.wrapper}>
-        {/* Ingredients Picker */}
         <Picker
           label={`Ingredients on Hand ${
             selectedIngredients.length ? `(${selectedIngredients.length})` : ""
@@ -191,12 +151,13 @@ const PreferencesScreen = () => {
           style={styles.picker}
           trailingAccessory={<Entypo name="chevron-small-down" size={24} />}
           mode={Picker.modes.MULTI}
-          value={selectedIngredients}
-          onChange={setSelectedIngredients} // Update selected ingredients
+          value={selectedIngredients} // Update selected ingredients
+          onChange={(e) => {
+            setSelectedIngredients(e as number[]);
+          }} // Update selected ingredients
           items={ingredientOptions}
         />
 
-        {/* Dietary Preferences Picker */}
         <Picker
           label={`Dietary Preferences ${
             dietaryPreferences.length ? `(${dietaryPreferences.length})` : ""
@@ -211,26 +172,28 @@ const PreferencesScreen = () => {
           trailingAccessory={<Entypo name="chevron-small-down" size={24} />}
           mode={Picker.modes.MULTI}
           value={dietaryPreferences}
-          onChange={setDietaryPreferences} // Update dietary preferences
+          onChange={(e) => setDietaryPreferences(e as number[])} // Update dietary preferences
           items={dietaryOptions}
         />
 
-        {/* Diet Picker */}
         <Picker
-          label={`healthData ${healthData.length ? `(${healthData.length})` : ""}`}
+          label={`healthData ${
+            healthData.length ? `(${healthData.length})` : ""
+          }`}
           placeholder={
-            healthData.length === 0 ? "Select diet" : `Selected ${healthData.length}`
+            healthData.length === 0
+              ? "Select diet"
+              : `Selected ${healthData.length}`
           }
           labelStyle={styles.labelText}
           style={styles.picker}
           trailingAccessory={<Entypo name="chevron-small-down" size={24} />}
           mode={Picker.modes.MULTI}
           value={healthData}
-          onChange={setHealthData} // Update diet selection
+          onChange={(e) => setHealthData(e as number[])} // Update diet selection
           items={healthDataOptions}
         />
-
-        {/* Cuisine Type Picker */} {/* Updated from Meal-time to Cuisine Type */}
+        {/* Updated from Meal-time to Cuisine Type */}
         <Picker
           label={`Cuisine Type ${
             cuisineType.length ? `(${cuisineType.length})` : ""
@@ -245,7 +208,7 @@ const PreferencesScreen = () => {
           trailingAccessory={<Entypo name="chevron-small-down" size={24} />}
           mode={Picker.modes.MULTI}
           value={cuisineType} // Updated to use cuisineType
-          onChange={setCuisineType} // Updated to setCuisineType
+          onChange={(e) => setCuisineType(e as number[])} // Updated to setCuisineType
           items={cuisineTypeOptions} // Updated to use cuisineTypeOptions
         />
       </View>

@@ -6,7 +6,10 @@ const Layout = () => {
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen
         name="recipes/[id]"
-        options={{ headerTitle: "Recipe", headerBackTitleVisible: false }}
+        options={{
+          headerTitle: "Recipe",
+          headerBackTitleVisible: false,
+        }}
       />
     </Stack>
   );

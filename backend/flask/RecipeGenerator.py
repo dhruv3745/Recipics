@@ -13,7 +13,7 @@ def process_image():
 
     # temp = find_recipe(['chicken leg', 'chicken', 'chicken stock', 'chicken wing', 'chicken thigh', 'chicken breast'])
 
-    return jsonify(["chicken leg", "chicken", "chicken stock", "chicken wing", "chicken thigh", "chicken breast"])
+    # return jsonify(["chicken leg", "chicken", "chicken stock", "chicken wing", "chicken thigh", "chicken breast"])
 
     if 'file' not in request.files:
         return jsonify({"error": "No image file provided"}), 400

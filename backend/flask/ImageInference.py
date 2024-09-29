@@ -9,7 +9,7 @@ path = "images/ingredients.jpg"
 # infer on a local image
 
 def infer_on_image(path):
-    result = CLIENT.infer(path, model_id="ingredients-317h4/1")
+    result = CLIENT.infer(path, model_id="ingredients-2-sj4ut/2")
 
     ingredients = []
 

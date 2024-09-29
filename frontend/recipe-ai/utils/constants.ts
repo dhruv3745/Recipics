@@ -24,3 +24,53 @@ export const assumedIngredients = [
   "Rosemary",
   "Parsley",
 ];
+
+// Updated dietary preference list
+export const dietaryPreferenceList = [
+  "Gluten-free",
+  "Vegetarian",
+  "Vegan",
+  "Low-fat",
+  "Low-sugar",
+  "Dairy-free",
+  "Egg-free",
+  "Peanut-free",
+  "Red-meat-free",
+  "Fish-free",
+  "Immuno-supportive",
+  "Keto-friendly",
+  "Kosher",
+  "Soy-free",
+];
+
+// New diet options
+export const healthDataList = [
+  "Balanced",
+  "High-fiber",
+  "High-protein",
+  "Low-carb",
+  "Low-fat",
+  "Low-sodium",
+];
+
+// New cuisine type list
+export const cuisineTypeList = [
+  "American",
+  "Asian",
+  "British",
+  "Caribbean",
+  "Central Europe",
+  "Chinese",
+  "Eastern Europe",
+  "French",
+  "Indian",
+  "Italian",
+  "Japanese",
+  "Kosher",
+  "Mediterranean",
+  "Mexican",
+  "Middle Eastern",
+  "Nordic",
+  "South American",
+  "South East Asian",
+];
