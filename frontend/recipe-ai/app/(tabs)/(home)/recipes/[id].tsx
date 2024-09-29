@@ -5,12 +5,12 @@ import {
   View,
   Image,
   ScrollView,
+  Linking,
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-import { dummyRecipes } from "@/utils/dummy-data";
 import { useEffect, useState } from "react";
-import { RecipeData } from "@/utils/types";
 import Pill from "@/components/Pill";
+import { Button } from "react-native-ui-lib";
 
 const RecipeScreen = () => {
   const { id } = useLocalSearchParams();
@@ -62,7 +62,7 @@ const RecipeScreen = () => {
         style={styles.body}
         contentContainerStyle={{ alignItems: "center" }}
       >
-        <Image style={styles.image} source={{ uri: image }} />
+        {/* <Image style={styles.image} source={{ uri: image }} /> */}
         <View style={styles.descriptionContainer}>
           <Text style={styles.text}>{name}</Text>
           <View style={styles.pillContainer}>
@@ -83,6 +83,13 @@ const RecipeScreen = () => {
               </Text>
             ))}
           </View>
+          <Button
+            label="Instructions"
+            style={{ backgroundColor: "#920003", marginTop: 20 }}
+            onPress={() => {
+              Linking.openURL(instructions);
+            }}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -100,7 +107,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     padding: 50,
-    backgroundColor: "orange",
   },
   text: {
     color: "black",

@@ -1,6 +1,12 @@
 import { Link, useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
-import { Text, SafeAreaView, View, StyleSheet } from "react-native";
+import {
+  Text,
+  SafeAreaView,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 
 const ResultsScreen = () => {
   const { data } = useLocalSearchParams();
@@ -15,19 +21,27 @@ const ResultsScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.wrapper}>
-        {parsedData.map((item: any, index: number) => (
-          <Link
-            href={{
-              pathname: "/(home)/recipes/[id]",
-              params: { id: item._id.$oid },
-            }}
-            key={index}
-            style={styles.text}
-          >
-            {item.name}
-          </Link>
-        ))}
+      <View style={{ padding: 20, flex: 1 }}>
+        <Text style={[styles.text, { marginBottom: 20 }]}>Found recipes</Text>
+        <FlatList
+          data={parsedData}
+          keyExtractor={(item, index) => index.toString()}
+          ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+          renderItem={({ item }) => (
+            <Link
+              asChild
+              href={{
+                pathname: "/(home)/recipes/[id]",
+                params: { id: item._id.$oid },
+              }}
+              style={[styles.text, styles.link]}
+            >
+              <TouchableOpacity activeOpacity={0.7}>
+                <Text style={{ fontSize: 20 }}>{item.name}</Text>
+              </TouchableOpacity>
+            </Link>
+          )}
+        />
       </View>
     </SafeAreaView>
   );
@@ -39,8 +53,7 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    gap: 10,
   },
   text: {
     fontSize: 24,
@@ -49,8 +62,12 @@ const styles = StyleSheet.create({
   link: {
     fontSize: 16,
     fontFamily: "Inter_400Regular",
-    color: "#920003",
-    textDecorationLine: "underline",
+    height: 80,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "lightgray",
+    borderRadius: 10,
+    flex: 1,
   },
 });
 
