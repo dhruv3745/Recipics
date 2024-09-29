@@ -1,0 +1,29 @@
+# label:color_rgb:parts:actions
+background:0,0,0::
+Potato:128,0,0::
+Tomato:0,128,0::
+Onion:128,128,0::
+Cilantro:0,0,128::
+Cheese:128,0,128::
+Egg:0,128,128::
+Spinach:128,128,128::
+Pork:64,0,0::
+Bacon:192,0,0::
+Broccoli:64,128,0::
+Lettuce:192,128,0::
+Cauliflower:64,0,128::
+Chicken:192,0,128::
+Beef:64,128,128::
+Tuna:192,128,128::
+Salmon:0,64,0::
+Turkey:128,64,0::
+Mushroom:0,192,0::
+Banana:128,192,0::
+Orange:0,64,128::
+Mango:128,64,128::
+Green Onion:0,192,128::
+Avacado:128,192,128::
+Carrot:64,64,0::
+Bell Pepper:192,64,0::
+Strawberry:64,192,0::
+Chili:192,192,0::

@@ -1,0 +1,51 @@
+<annotation>
+  <folder></folder>
+  <filename>Screenshot 2024-09-28 at 1.33.53PM.png</filename>
+  <source>
+    <database>Unknown</database>
+    <annotation>Unknown</annotation>
+    <image>Unknown</image>
+  </source>
+  <size>
+    <width>398</width>
+    <height>400</height>
+    <depth></depth>
+  </size>
+  <segmented>0</segmented>
+  <object>
+    <name>Beef</name>
+    <truncated>0</truncated>
+    <occluded>0</occluded>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>13.67</xmin>
+      <ymin>8.58</ymin>
+      <xmax>303.65</xmax>
+      <ymax>249.22</ymax>
+    </bndbox>
+    <attributes>
+      <attribute>
+        <name>rotation</name>
+        <value>0.0</value>
+      </attribute>
+    </attributes>
+  </object>
+  <object>
+    <name>Green Onion</name>
+    <truncated>0</truncated>
+    <occluded>0</occluded>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>218.86</xmin>
+      <ymin>241.15</ymin>
+      <xmax>387.63</xmax>
+      <ymax>386.5</ymax>
+    </bndbox>
+    <attributes>
+      <attribute>
+        <name>rotation</name>
+        <value>0.0</value>
+      </attribute>
+    </attributes>
+  </object>
+</annotation>
