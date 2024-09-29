@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 import os
 import IngredientFinder
 import ImageToText
-from FindRecipe import find_recipe
+from FindRecipe import find_recipe, find_recipe_by_id
 from bson import json_util
 from ImageInference import infer_on_image
 
@@ -54,6 +54,20 @@ def find_recipe_route():
     print(recipes)
 
     return json_util.dumps(recipes)
+
+@app.route('/get_recipe_by_id', methods=['GET'])
+def get_recipe_by_id():
+    recipe_id = request.args.get('recipe_id')
+
+    if not recipe_id:
+        return jsonify({"error": "No recipe ID provided"}), 400
+
+    recipe = find_recipe_by_id(recipe_id)
+
+    if not recipe:
+        return jsonify({"error": "No recipe found with the provided ID"}), 404
+
+    return json_util.dumps(recipe)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5001)

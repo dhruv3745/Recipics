@@ -14,20 +14,45 @@ import Pill from "@/components/Pill";
 
 const RecipeScreen = () => {
   const { id } = useLocalSearchParams();
-  const [recipeData, setRecipeData] = useState<RecipeData>();
+  const [recipeData, setRecipeData] = useState<any>(null);
 
   // fetch recipe data here from database
   useEffect(() => {
-    const recipe = dummyRecipes.find((recipe) => recipe.id === Number(id));
-    setRecipeData(recipe);
+    fetch(`http://128.61.70.242:5001/get_recipe_by_id?recipe_id=${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          console.error(response);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setRecipeData(data);
+      })
+      .catch((error) => {
+        console.error(error);
+        setRecipeData(null);
+      });
   }, []);
 
   if (!recipeData) {
     return null;
   }
 
-  const { name, image, description, ingredients, time, difficulty, tags } =
-    recipeData;
+  const {
+    name,
+    image,
+    description,
+    instructions,
+    ingredients,
+    cookedTime: time,
+    difficulty,
+    healthLabels: tags,
+  } = recipeData;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -41,7 +66,7 @@ const RecipeScreen = () => {
           <View style={styles.pillContainer}>
             {difficulty && <Pill>{difficulty}</Pill>}
             {time && <Pill>{time}</Pill>}
-            {tags.map((tag) => (
+            {tags.map((tag: any) => (
               <Pill key={tag}>{tag}</Pill>
             ))}
           </View>
@@ -50,7 +75,7 @@ const RecipeScreen = () => {
           </Text>
           <View>
             <Text style={[styles.text, { marginTop: 15 }]}>Ingredients</Text>
-            {ingredients.map((ingredient) => (
+            {ingredients.map((ingredient: any) => (
               <Text key={ingredient} style={styles.textDescription}>
                 - {ingredient}
               </Text>
