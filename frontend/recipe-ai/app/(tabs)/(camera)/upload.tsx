@@ -75,6 +75,50 @@ const UploadScreen = () => {
     setImages([...images, ...uri]);
   };
 
+  const onSubmit = () => {
+    if (images.length === 0) {
+      Alert.alert("Please add at least one image.");
+      return;
+    }
+
+    const data = new FormData();
+
+    data.append("file", {
+      uri: images[0],
+      type: "image/jpeg",
+      name: "image.jpg",
+    } as any);
+
+    // images.forEach((image, index) => {
+    //   const blob = {
+    //     uri: image,
+    //     type: "image/jpeg",
+    //     name: `image${index}.jpg`,
+    //   } as any;
+    //   data.append(`image${index}`, blob);
+    // });
+
+    fetch("http://128.61.70.242:5001/process_image", {
+      method: "POST",
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      body: data,
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((json) => {
+        console.log(json);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.view}>
@@ -111,7 +155,7 @@ const UploadScreen = () => {
           <Button
             label="Submit"
             style={{ backgroundColor: "#920003" }}
-            onPress={() => {}}
+            onPress={onSubmit}
           />
         </GestureHandlerRootView>
       </View>
