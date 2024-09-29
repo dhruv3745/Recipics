@@ -4,10 +4,13 @@ from pytesseract import Output
 import numpy as np
 import cv2
 
-# Insert the file path to your tesseract.exe file here
-pytesseract.pytesseract.tesseract_cmd = r'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
-# Insert the file path to your receipt image here
-filename = 'C:\\Users\\litte\\OneDrive\\Pictures\\Camera Roll\\ThirdReceipt.jpg'
+def __main__(path):
+    # Insert the file path to your tesseract.exe file here
+    pytesseract.pytesseract.tesseract_cmd = r'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
+    # Insert the file path to your receipt image here
+    filename = path
+    extracted_text = image_to_text(filename)
+    return extracted_text
 
 def image_to_text(input_path):
     img = cv2.imread(input_path)
@@ -67,7 +70,3 @@ def denoise(image):
        The denoised image.
    """
     return cv2.medianBlur(image, 5) # Adjust kernel size as needed
-
-extracted_text = image_to_text(filename)
-print(extracted_text)
-draw_bounding_boxes(filename, 'C:\\Users\\litte\\OneDrive\\Pictures\\Camera Roll\\AllBoxedUp.png')
