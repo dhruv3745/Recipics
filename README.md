@@ -1,7 +1,6 @@
-# RecipeAI
-**Recipe Finder App**
+## RecipeAI
 
-**Problem Statement**
+#**Problem Statement**
 Our goal is to address three main issues:
 * Reduce food waste
 * Dietary management
