@@ -80,6 +80,12 @@ export default function TabLayout() {
           // tabBarItemStyle: { backgroundColor: "red"},
         }}
       />
+      <Tabs.Screen
+        name="results"
+        options={{
+          href: null,
+        }}
+      />
     </Tabs>
   );
 }

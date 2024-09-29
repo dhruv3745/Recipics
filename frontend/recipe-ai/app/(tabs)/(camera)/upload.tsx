@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import {
   View,
@@ -111,8 +111,12 @@ const UploadScreen = () => {
         }
         return response.json();
       })
-      .then((json) => {
-        console.log(json);
+      .then((data: any) => {
+        router.back();
+        router.navigate({
+          pathname: "/results",
+          params: { ingredients: data.result.join(",") },
+        });
       })
       .catch((error) => {
         console.error(error);

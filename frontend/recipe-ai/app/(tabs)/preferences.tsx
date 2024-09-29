@@ -2,11 +2,24 @@ import { SafeAreaView, StyleSheet, View } from "react-native";
 import { Picker } from "react-native-ui-lib";
 import Entypo from "@expo/vector-icons/Entypo";
 import { useEffect, useState } from "react";
+import { assumedIngredients } from "@/utils/constants";
 
 const PreferencesScreen = () => {
   // TODO: add types
   const [selectedIngredients, setSelectedIngredients] = useState([3]);
   const [dietaryPreferences, setDietaryPreferences] = useState([1, 2, 3]);
+
+  const [ingredientOptions, setIngredientOptions] = useState<
+    {
+      label: string;
+      value: number;
+    }[]
+  >(
+    assumedIngredients.map((ingredient, index) => ({
+      label: ingredient,
+      value: index,
+    }))
+  );
 
   // fetch user ingredients
   useEffect(() => {}, []);
@@ -28,16 +41,7 @@ const PreferencesScreen = () => {
           trailingAccessory={<Entypo name="chevron-small-down" size={24} />}
           mode={Picker.modes.MULTI}
           // topBarProps={{ doneButtonProps: { color: "#920003" } }}
-          items={[
-            { label: "Option 1", value: 0 },
-            { label: "Option 2", value: 1 },
-            { label: "Option 3", value: 2 },
-            { label: "Option 4", value: 3, disabled: true },
-            { label: "Option 5", value: 4 },
-            { label: "Option 6", value: 5 },
-            { label: "Option 7", value: 6 },
-            { label: "Option 8", value: 6 },
-          ]}
+          items={ingredientOptions}
         />
 
         <Picker
