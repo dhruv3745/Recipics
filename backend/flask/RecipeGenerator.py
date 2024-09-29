@@ -10,35 +10,47 @@ app = Flask(__name__)
 
 @app.route('/process_image', methods=['POST'])
 def process_image():
+    if 'files' not in request.files:
+        return jsonify({"error": "No image files provided"}), 400
 
-    # temp = find_recipe(['chicken leg', 'chicken', 'chicken stock', 'chicken wing', 'chicken thigh', 'chicken breast'])
-
-    # return jsonify(["chicken leg", "chicken", "chicken stock", "chicken wing", "chicken thigh", "chicken breast"])
-
-    if 'file' not in request.files:
-        return jsonify({"error": "No image file provided"}), 400
-
-    image = request.files['file']
-    path = os.path.join("images", image.filename)
-    image.save(path)
-    ingredients_OCR = IngredientFinder.__main__(ImageToText.__main__(path))
-    ingredients_INF = infer_on_image(path)
+    files = request.files.getlist('files')
+    if not files:
+        return jsonify({"error": "No files uploaded"}), 400
     
-    print("OCR Ingredients: ", ingredients_OCR)
-    print("Inference Ingredients: ", ingredients_INF)
+    all_ingredients = set()
 
-    total_ingredients = list(set(ingredients_OCR + ingredients_INF))
+    # Loop through each uploaded file
+    for image in files:
+        if image.filename == '':
+            return jsonify({"error": "One of the files has an empty filename"}), 400
 
-    if not total_ingredients:
-        return jsonify({"error": "No ingredients found in the image"}), 400
+        # Save the image to a temporary path (images directory)
+        path = os.path.join("images", image.filename)
+        try:
+            image.save(path)
 
-    return jsonify(total_ingredients)
+            # Process the image 
+            ingredients_OCR = IngredientFinder.__main__(ImageToText.__main__(path))
+            ingredients_INF = infer_on_image(path)
 
-    print("Total ingredients: ", total_ingredients)
+            print(f"Processing {image.filename}:")
+            print("  OCR Ingredients: ", ingredients_OCR)
+            print("  Inference Ingredients: ", ingredients_INF)
 
-    recipe = find_recipe(total_ingredients)
+            # Combine ingredients from both OCR and inference, and add to the total set
+            all_ingredients.update(ingredients_OCR)
+            all_ingredients.update(ingredients_INF)
+        
+        finally:
+            # Delete the file after processing
+            if os.path.exists(path):
+                os.remove(path)
+                print(f"Deleted file: {path}")
 
-    return json_util.dumps(recipe)
+    if not all_ingredients:
+        return jsonify({"error": "No ingredients found in the uploaded images"}), 400
+
+    return jsonify(list(all_ingredients))
 
 @app.route('/find_recipe', methods=['GET'])
 def find_recipe_route():

@@ -86,20 +86,13 @@ const UploadScreen = () => {
 
     const data = new FormData();
 
-    data.append("file", {
-      uri: images[0],
-      type: "image/jpeg",
-      name: "image.jpg",
-    } as any);
-
-    // images.forEach((image, index) => {
-    //   const blob = {
-    //     uri: image,
-    //     type: "image/jpeg",
-    //     name: `image${index}.jpg`,
-    //   } as any;
-    //   data.append(`image${index}`, blob);
-    // });
+    images.forEach((imageUri, index) => {
+      data.append("files", {
+        uri: imageUri,
+        type: "image/jpeg", // You can dynamically detect the MIME type if necessary
+        name: `image_${index}.jpg`, // Dynamic file names for each image
+      } as any);
+    });
 
     setLoading(true);
 
