@@ -60,8 +60,32 @@ const dietList = [
   "Low-sodium",
 ];
 
+<<<<<<< HEAD
 // New meal-time options
 const mealTimeList = ["Breakfast", "Dinner", "Lunch", "Snack", "Teatime"];
+=======
+// New cuisine type list
+const cuisineTypeList = [
+  "American",
+  "Asian",
+  "British",
+  "Caribbean",
+  "Central Europe",
+  "Chinese",
+  "Eastern Europe",
+  "French",
+  "Indian",
+  "Italian",
+  "Japanese",
+  "Kosher",
+  "Mediterranean",
+  "Mexican",
+  "Middle Eastern",
+  "Nordic",
+  "South American",
+  "South East Asian",
+];
+>>>>>>> refs/remotes/origin/main
 
 type IngredientOption = {
   label: string;
@@ -72,7 +96,7 @@ const PreferencesScreen = () => {
   const [selectedIngredients, setSelectedIngredients] = useState<number[]>([]);
   const [dietaryPreferences, setDietaryPreferences] = useState<number[]>([]);
   const [diet, setDiet] = useState<number[]>([]);
-  const [mealTime, setMealTime] = useState<number[]>([]);
+  const [cuisineType, setCuisineType] = useState<number[]>([]); // Updated to cuisine type
 
   // State for options
   const [ingredientOptions, setIngredientOptions] = useState<
@@ -98,9 +122,9 @@ const PreferencesScreen = () => {
     }))
   );
 
-  const [mealTimeOptions, setMealTimeOptions] = useState<IngredientOption[]>(
-    mealTimeList.map((mealTimeOption, index) => ({
-      label: mealTimeOption,
+  const [cuisineTypeOptions, setCuisineTypeOptions] = useState<IngredientOption[]>( // Updated to use cuisine type
+    cuisineTypeList.map((cuisineTypeOption, index) => ({
+      label: cuisineTypeOption,
       value: index,
     }))
   );
@@ -110,12 +134,16 @@ const PreferencesScreen = () => {
     try {
       const storedData = await AsyncStorage.getItem("userPreferences");
       if (storedData) {
-        const { selectedIngredients, dietaryPreferences, diet, mealTime } =
-          JSON.parse(storedData);
+        const {
+          selectedIngredients,
+          dietaryPreferences,
+          diet,
+          cuisineType, // Updated from mealTime to cuisineType
+        } = JSON.parse(storedData);
         setSelectedIngredients(selectedIngredients || []);
         setDietaryPreferences(dietaryPreferences || []);
         setDiet(diet || []);
-        setMealTime(mealTime || []);
+        setCuisineType(cuisineType || []); // Updated to set cuisineType
       } else {
         // Default: select all ingredients
         setSelectedIngredients(ingredientList.map((_, index) => index));
@@ -130,9 +158,15 @@ const PreferencesScreen = () => {
     try {
       const preferences = {
         selectedIngredients,
+<<<<<<< HEAD
         healthLabels: dietaryPreferences,
         dietLabels: diet,
         mealTime,
+=======
+        dietaryPreferences,
+        diet,
+        cuisineType, // Updated from mealTime to cuisineType
+>>>>>>> refs/remotes/origin/main
       };
       await AsyncStorage.setItem(
         "userPreferences",
@@ -149,7 +183,7 @@ const PreferencesScreen = () => {
 
   useEffect(() => {
     savePreferences(); // Save preferences whenever they change
-  }, [selectedIngredients, dietaryPreferences, diet, mealTime]);
+  }, [selectedIngredients, dietaryPreferences, diet, cuisineType]); // Updated to include cuisineType
 
   return (
     <SafeAreaView style={styles.container}>
@@ -207,21 +241,27 @@ const PreferencesScreen = () => {
           items={dietOptions}
         />
 
-        {/* Meal-time Picker */}
+        {/* Cuisine Type Picker */} {/* Updated from Meal-time to Cuisine Type */}
         <Picker
+<<<<<<< HEAD
           label={`Meal-time ${mealTime.length ? `(${mealTime.length})` : ""}`}
+=======
+          label={`Cuisine Type ${
+            cuisineType.length ? `(${cuisineType.length})` : ""
+          }`}
+>>>>>>> refs/remotes/origin/main
           placeholder={
-            mealTime.length === 0
-              ? "Select meal-time"
-              : `Selected ${mealTime.length}`
+            cuisineType.length === 0
+              ? "Select cuisine type"
+              : `Selected ${cuisineType.length}`
           }
           labelStyle={styles.labelText}
           style={styles.picker}
           trailingAccessory={<Entypo name="chevron-small-down" size={24} />}
           mode={Picker.modes.MULTI}
-          value={mealTime}
-          onChange={setMealTime} // Update meal-time selection
-          items={mealTimeOptions}
+          value={cuisineType} // Updated to use cuisineType
+          onChange={setCuisineType} // Updated to setCuisineType
+          items={cuisineTypeOptions} // Updated to use cuisineTypeOptions
         />
       </View>
     </SafeAreaView>

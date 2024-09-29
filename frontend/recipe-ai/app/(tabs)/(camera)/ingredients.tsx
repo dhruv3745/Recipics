@@ -17,6 +17,7 @@ const IngredientsScreen = () => {
   const [parsedIngredients, setParsedIngredients] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
+
   const [dietLabels, setDietLabels] = useState<string[]>([]);
   const [healthLabels, setHealthLabels] = useState<string[]>([]);
   const [cuisineType, setCuisineType] = useState<string[]>([]);
@@ -25,8 +26,13 @@ const IngredientsScreen = () => {
     try {
       const storedData = await AsyncStorage.getItem("userPreferences");
       if (storedData) {
-        const { selectedIngredients, dietLabels, healthLabels, cuisineType } =
-          JSON.parse(storedData);
+        const {
+          selectedIngredients,
+          dietPreferences,
+          healthData,
+          cuisineType,
+        } = JSON.parse(storedData);
+
         const ingredientList = [
           "Butter",
           "Salt",
@@ -53,12 +59,13 @@ const IngredientsScreen = () => {
           "Rosemary",
           "Parsley",
         ];
+
         const ingredients = selectedIngredients.map(
           (index: number) => ingredientList[index]
         );
         setSelectedIngredients(ingredients);
-        setDietLabels(dietLabels || []);
-        setHealthLabels(healthLabels || []);
+        setHealthLabels(healthData || []);
+        setDietLabels(dietPreferences || []);
         setCuisineType(cuisineType || []);
       } else {
       }
@@ -83,6 +90,7 @@ const IngredientsScreen = () => {
 
   const fetchRecipes = () => {
     setLoading(true);
+
     const combinedIngredients = [...parsedIngredients, ...selectedIngredients];
 
     let paramsArray = [];
