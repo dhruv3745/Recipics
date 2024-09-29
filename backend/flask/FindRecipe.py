@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from MapIngredients import map_ingredients
 
 uri = "mongodb+srv://admin:cH2BkGTbxehvD1wr@recipes.5iqaj.mongodb.net/?retryWrites=true&w=majority&appName=Recipes"
 
@@ -13,6 +14,9 @@ def find_recipe(ingredients):
         print("Invalid ingredients input. Expected a list.")
         return None
     
+    # mappings
+    mapped_ingredients = map_ingredients(ingredients)
+
     try:
         # Define your query by limiting results to the specified ingredients list
         query = {
@@ -20,7 +24,7 @@ def find_recipe(ingredients):
                 '$exists': True,
                 '$not': {
                     '$elemMatch': {
-                        '$nin': ingredients
+                        '$nin': mapped_ingredients
                     }
                 }
             }
@@ -36,3 +40,5 @@ def find_recipe(ingredients):
         print(f"Failed to connect to MongoDB: {e}")
         return None
     
+
+# print(find_recipe(['chicken leg', 'chicken', 'chicken stock', 'chicken wing', 'chicken thigh', 'chicken breast']))

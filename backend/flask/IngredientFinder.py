@@ -9,5 +9,5 @@ def __main__(extracted_text):
     words_only = extract_words(extracted_text)
     f = open('RawIngredients.txt', 'r')
     official_ingredients = f.readlines()[0].split(',')
-    ingredients_only = [word for word in words_only if word.lower() in official_ingredients]
+    ingredients_only = [word.lower() for word in words_only if word.lower() in official_ingredients]
     return ingredients_only

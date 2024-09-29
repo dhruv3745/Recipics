@@ -16,10 +16,13 @@ import {
 } from "react-native-gesture-handler";
 import * as ImagePicker from "expo-image-picker";
 import { Button } from "react-native-ui-lib";
+import Loading from "@/components/Loading";
 
 const UploadScreen = () => {
   const { imageURI } = useLocalSearchParams();
   const [images, setImages] = useState<string[]>([]);
+
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (imageURI && !Array.isArray(imageURI)) {
@@ -98,6 +101,8 @@ const UploadScreen = () => {
     //   data.append(`image${index}`, blob);
     // });
 
+    setLoading(true);
+
     fetch("http://128.61.70.242:5001/process_image", {
       method: "POST",
       headers: {
@@ -107,19 +112,24 @@ const UploadScreen = () => {
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          console.error(response);
         }
         return response.json();
       })
       .then((data: any) => {
+        console.log(data);
+
         router.back();
         router.navigate({
           pathname: "/results",
-          params: { ingredients: data.result.join(",") },
+          params: { data: JSON.stringify(data.result[0]) },
         });
       })
       .catch((error) => {
         console.error(error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -156,11 +166,15 @@ const UploadScreen = () => {
             numColumns={2}
             scrollEnabled
           />
-          <Button
-            label="Submit"
-            style={{ backgroundColor: "#920003" }}
-            onPress={onSubmit}
-          />
+          {!loading ? (
+            <Button
+              label="Submit"
+              style={{ backgroundColor: "#920003" }}
+              onPress={onSubmit}
+            />
+          ) : (
+            <Loading />
+          )}
         </GestureHandlerRootView>
       </View>
     </SafeAreaView>
