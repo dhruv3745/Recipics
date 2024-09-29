@@ -5,6 +5,7 @@ const Layout = () => {
     <Stack>
       <Stack.Screen name="camera" options={{ headerShown: false }} />
       <Stack.Screen name="upload" options={{ headerShown: false }} />
+      <Stack.Screen name="ingredients" options={{ headerShown: false }} />
     </Stack>
   );
 };

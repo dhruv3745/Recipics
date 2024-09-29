@@ -4,25 +4,23 @@ import { Text, SafeAreaView, View, StyleSheet } from "react-native";
 
 const ResultsScreen = () => {
   const { data } = useLocalSearchParams();
-  const [parsedData, setParsedData] = useState<any>();
 
-  useEffect(() => {
-    if (data && typeof data === "string") {
-      setParsedData(JSON.parse(data));
-    }
-  }, [data]);
+  const parsedData: any[] = data ? JSON.parse(String(data)) : null;
 
   if (!parsedData) {
     return null;
   }
 
+  console.log(parsedData);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.wrapper}>
-        <Text style={styles.text}>{parsedData.name}</Text>
-        {/* <Link href={parsedData.instructions} style={styles.link}>
-          {parsedData.instructions}
-        </Link> */}
+        {parsedData.map((item: any, index: number) => (
+          <Text key={index} style={styles.text}>
+            {item.name}
+          </Text>
+        ))}
       </View>
     </SafeAreaView>
   );

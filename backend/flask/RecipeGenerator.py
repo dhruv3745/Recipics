@@ -10,6 +10,11 @@ app = Flask(__name__)
 
 @app.route('/process_image', methods=['POST'])
 def process_image():
+
+    # temp = find_recipe(['chicken leg', 'chicken', 'chicken stock', 'chicken wing', 'chicken thigh', 'chicken breast'])
+
+    return jsonify(["chicken leg", "chicken", "chicken stock", "chicken wing", "chicken thigh", "chicken breast"])
+
     if 'file' not in request.files:
         return jsonify({"error": "No image file provided"}), 400
 
@@ -27,11 +32,28 @@ def process_image():
     if not total_ingredients:
         return jsonify({"error": "No ingredients found in the image"}), 400
 
+    return jsonify(total_ingredients)
+
     print("Total ingredients: ", total_ingredients)
 
     recipe = find_recipe(total_ingredients)
 
-    return jsonify({"result": json_util.dumps(recipe)})
+    return json_util.dumps(recipe)
+
+@app.route('/find_recipe', methods=['GET'])
+def find_recipe_route():
+    ingredients = [ingredient.strip().lower() for ingredient in request.args.get('ingredients').split(',')]
+
+    print("Ingredients: ", ingredients)
+
+    if not ingredients:
+        return jsonify({"error": "No ingredients provided"}), 400
+
+    recipes = find_recipe(ingredients)
+
+    print(recipes)
+
+    return json_util.dumps(recipes)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5001)

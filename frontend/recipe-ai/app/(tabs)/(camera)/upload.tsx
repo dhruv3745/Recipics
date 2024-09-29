@@ -116,13 +116,10 @@ const UploadScreen = () => {
         }
         return response.json();
       })
-      .then((data: any) => {
-        console.log(data);
-
-        router.back();
+      .then((data: string[]) => {
         router.navigate({
-          pathname: "/results",
-          params: { data: JSON.stringify(data.result[0]) },
+          pathname: "/(tabs)/ingredients",
+          params: { ingredients: JSON.stringify(data) },
         });
       })
       .catch((error) => {
