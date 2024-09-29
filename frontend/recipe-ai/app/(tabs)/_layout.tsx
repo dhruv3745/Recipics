@@ -38,7 +38,7 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        tabBarActiveTintColor: Colors.light.tint,
         headerShown: false,
       }}
     >
@@ -55,7 +55,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="camera"
+        name="(camera)"
         options={{
           title: "Camera",
           tabBarIcon: ({ color, focused }) => (
