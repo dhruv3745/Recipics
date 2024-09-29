@@ -28,7 +28,14 @@
     },
     "plugins": [
       "expo-router",
-      "expo-font"
+      "expo-font",
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
+          "photosPermission": "The app accesses your photos to detect ingredients"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
