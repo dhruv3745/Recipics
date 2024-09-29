@@ -177,7 +177,7 @@ const PreferencesScreen = () => {
         />
 
         <Picker
-          label={`healthData ${
+          label={`Health Options ${
             healthData.length ? `(${healthData.length})` : ""
           }`}
           placeholder={

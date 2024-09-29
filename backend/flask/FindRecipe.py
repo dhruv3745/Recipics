@@ -34,19 +34,22 @@ def find_recipe(ingredients, dietLabels, healthLabels, cuisineType):
 
         # Only add `dietLabels` if it's non-empty
         if dietLabels:
-            query['dietLabels'] = dietLabels
+            query['dietLabels'] = {'$in': dietLabels}
 
         # Only add `healthLabels` if it's non-empty
         if healthLabels:
-            query['healthLabels'] = healthLabels
+            query['healthLabels'] = {'$in': healthLabels}
 
         # Only add `cuisineType` if it's non-empty
         if cuisineType:
-            query['cuisineType'] = cuisineType
+            query['cuisineType'] = {'$in': cuisineType}
+
+        print("Query:", query)
+
+        c = collection.find(query)
 
         # Perform the query and convert the cursor to a list
-        results = list(collection.find(query))  # Converts cursor to list
-        print(results)  # Print or log the result if desired
+        results = list(c)  # Converts cursor to list
         return results
     
     except PyMongoError as e:

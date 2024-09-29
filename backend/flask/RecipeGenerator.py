@@ -76,7 +76,7 @@ def find_recipe_route():
 
     recipes = find_recipe(ingredients, dietLabels, healthLabels, cuisineType)
 
-    print(recipes)
+    # print(recipes)
 
     return json_util.dumps(recipes)
 
