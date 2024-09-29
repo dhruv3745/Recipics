@@ -10,21 +10,44 @@ import {
 } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { Button, TextField } from "react-native-ui-lib";
+import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
 
 const IngredientsScreen = () => {
   const { ingredients } = useLocalSearchParams();
-  const [parsedIngredients, setParsedIngredients] = useState<any[]>([]);
+  const [parsedIngredients, setParsedIngredients] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (ingredients) {
-      setParsedIngredients(JSON.parse(String(ingredients)));
+  // Function to load selected ingredients from AsyncStorage
+  const loadSelectedIngredients = async () => {
+    try {
+      const storedData = await AsyncStorage.getItem("userPreferences");
+      if (storedData) {
+        const { selectedIngredients } = JSON.parse(storedData);
+        // Assuming you have a function or array that maps indices to ingredient names
+        const ingredientList = [
+          "Butter", "Salt", "Pepper", "Oil", "Flour", "Rice", 
+          "Milk (or substitute)", "Honey", "Garlic (or garlic powder)", 
+          "Vanilla Extract", "Baking Powder", "Baking Soda", 
+          "Cornstarch", "Onion Powder", "Cinnamon", "Cumin", 
+          "Paprika", "Turmeric", "Ginger", "Basil", "Oregano", 
+          "Thyme", "Rosemary", "Parsley"
+        ];
+        const ingredients = selectedIngredients.map((index: number) => ingredientList[index]);
+        setParsedIngredients(ingredients);
+      } else {
+        // Fallback if no stored data
+        if (ingredients) {
+          setParsedIngredients(JSON.parse(String(ingredients)));
+        }
+      }
+    } catch (error) {
+      console.error("Failed to load selected ingredients:", error);
     }
-  }, [ingredients]);
+  };
 
-  if (!parsedIngredients) {
-    return null;
-  }
+  useEffect(() => {
+    loadSelectedIngredients(); // Load selected ingredients when the component mounts
+  }, [ingredients]);
 
   const onDelete = (index: number) => {
     const newIngredients = [...parsedIngredients];
