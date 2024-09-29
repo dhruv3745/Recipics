@@ -42,15 +42,27 @@ def process_image():
 
 @app.route('/find_recipe', methods=['GET'])
 def find_recipe_route():
-    ingredients = [ingredient.strip().lower() for ingredient in request.args.get('ingredients').split(',')]
-    
+    # Safely process the query parameter 'ingredients'
+    ingredients_param = request.args.get('ingredients')
+    ingredients = [ingredient.strip().lower() for ingredient in ingredients_param.split(',')] if ingredients_param else []
 
+    # Safely process the query parameter 'dietLabels'
+    dietLabels_param = request.args.get('dietLabels')
+    dietLabels = [dietLabel.strip().lower() for dietLabel in dietLabels_param.split(',')] if dietLabels_param else []
+
+    # Safely process the query parameter 'healthLabels'
+    healthLabels_param = request.args.get('healthLabels')
+    healthLabels = [healthLabel.strip().lower() for healthLabel in healthLabels_param.split(',')] if healthLabels_param else []
+
+    # Safely process the query parameter 'cuisineType'
+    cuisineType_param = request.args.get('cuisineType')
+    cuisineType = [cuisine.strip().lower() for cuisine in cuisineType_param.split(',')] if cuisineType_param else []
     print("Ingredients: ", ingredients)
 
     if not ingredients:
         return jsonify({"error": "No ingredients provided"}), 400
 
-    recipes = find_recipe(ingredients)
+    recipes = find_recipe(ingredients, dietLabels, healthLabels, cuisineType)
 
     print(recipes)
 

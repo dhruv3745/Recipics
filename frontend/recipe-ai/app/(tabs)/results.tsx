@@ -11,15 +11,22 @@ const ResultsScreen = () => {
     return null;
   }
 
-  console.log(parsedData);
+  console.log(parsedData[0]._id.$oid);
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.wrapper}>
         {parsedData.map((item: any, index: number) => (
-          <Text key={index} style={styles.text}>
+          <Link
+            href={{
+              pathname: "/(home)/recipes/[id]",
+              params: { id: item._id.$oid },
+            }}
+            key={index}
+            style={styles.text}
+          >
             {item.name}
-          </Text>
+          </Link>
         ))}
       </View>
     </SafeAreaView>

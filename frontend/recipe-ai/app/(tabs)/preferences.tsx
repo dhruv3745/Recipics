@@ -61,13 +61,7 @@ const dietList = [
 ];
 
 // New meal-time options
-const mealTimeList = [
-  "Breakfast",
-  "Dinner",
-  "Lunch",
-  "Snack",
-  "Teatime",
-];
+const mealTimeList = ["Breakfast", "Dinner", "Lunch", "Snack", "Teatime"];
 
 type IngredientOption = {
   label: string;
@@ -81,7 +75,9 @@ const PreferencesScreen = () => {
   const [mealTime, setMealTime] = useState<number[]>([]);
 
   // State for options
-  const [ingredientOptions, setIngredientOptions] = useState<IngredientOption[]>(
+  const [ingredientOptions, setIngredientOptions] = useState<
+    IngredientOption[]
+  >(
     ingredientList.map((ingredient, index) => ({
       label: ingredient,
       value: index,
@@ -112,14 +108,10 @@ const PreferencesScreen = () => {
   // Load preferences from AsyncStorage
   const loadPreferences = async () => {
     try {
-      const storedData = await AsyncStorage.getItem('userPreferences');
+      const storedData = await AsyncStorage.getItem("userPreferences");
       if (storedData) {
-        const {
-          selectedIngredients,
-          dietaryPreferences,
-          diet,
-          mealTime,
-        } = JSON.parse(storedData);
+        const { selectedIngredients, dietaryPreferences, diet, mealTime } =
+          JSON.parse(storedData);
         setSelectedIngredients(selectedIngredients || []);
         setDietaryPreferences(dietaryPreferences || []);
         setDiet(diet || []);
@@ -138,11 +130,14 @@ const PreferencesScreen = () => {
     try {
       const preferences = {
         selectedIngredients,
-        dietaryPreferences,
-        diet,
+        healthLabels: dietaryPreferences,
+        dietLabels: diet,
         mealTime,
       };
-      await AsyncStorage.setItem('userPreferences', JSON.stringify(preferences));
+      await AsyncStorage.setItem(
+        "userPreferences",
+        JSON.stringify(preferences)
+      );
     } catch (error) {
       console.error("Failed to save preferences:", error);
     }
@@ -199,13 +194,9 @@ const PreferencesScreen = () => {
 
         {/* Diet Picker */}
         <Picker
-          label={`Diet ${
-            diet.length ? `(${diet.length})` : ""
-          }`}
+          label={`Diet ${diet.length ? `(${diet.length})` : ""}`}
           placeholder={
-            diet.length === 0
-              ? "Select diet"
-              : `Selected ${diet.length}`
+            diet.length === 0 ? "Select diet" : `Selected ${diet.length}`
           }
           labelStyle={styles.labelText}
           style={styles.picker}
@@ -218,9 +209,7 @@ const PreferencesScreen = () => {
 
         {/* Meal-time Picker */}
         <Picker
-          label={`Meal-time ${
-            mealTime.length ? `(${mealTime.length})` : ""
-          }`}
+          label={`Meal-time ${mealTime.length ? `(${mealTime.length})` : ""}`}
           placeholder={
             mealTime.length === 0
               ? "Select meal-time"

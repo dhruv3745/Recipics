@@ -16,6 +16,8 @@ const RecipeScreen = () => {
   const { id } = useLocalSearchParams();
   const [recipeData, setRecipeData] = useState<any>(null);
 
+  console.log(id);
+
   // fetch recipe data here from database
   useEffect(() => {
     fetch(`http://128.61.70.242:5001/get_recipe_by_id?recipe_id=${id}`, {
@@ -37,7 +39,7 @@ const RecipeScreen = () => {
         console.error(error);
         setRecipeData(null);
       });
-  }, []);
+  }, [id]);
 
   if (!recipeData) {
     return null;
@@ -98,6 +100,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     padding: 50,
+    backgroundColor: "orange",
   },
   text: {
     color: "black",

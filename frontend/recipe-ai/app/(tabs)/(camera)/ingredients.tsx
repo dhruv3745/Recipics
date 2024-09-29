@@ -25,7 +25,8 @@ const IngredientsScreen = () => {
     try {
       const storedData = await AsyncStorage.getItem("userPreferences");
       if (storedData) {
-        const { selectedIngredients, dietLabels, healthLabels, cuisineType } = JSON.parse(storedData);
+        const { selectedIngredients, dietLabels, healthLabels, cuisineType } =
+          JSON.parse(storedData);
         const ingredientList = [
           "Butter",
           "Salt",
@@ -60,9 +61,6 @@ const IngredientsScreen = () => {
         setHealthLabels(healthLabels || []);
         setCuisineType(cuisineType || []);
       } else {
-        if (ingredients) {
-          setParsedIngredients(JSON.parse(String(ingredients)));
-        }
       }
     } catch (error) {
       console.error("Failed to load preferences:", error);
@@ -71,6 +69,10 @@ const IngredientsScreen = () => {
 
   useEffect(() => {
     loadPreferences();
+    if (ingredients) {
+      setParsedIngredients(JSON.parse(String(ingredients)));
+    }
+    console.log(dietLabels, healthLabels, cuisineType);
   }, [ingredients]);
 
   const onDelete = (index: number) => {
@@ -83,21 +85,34 @@ const IngredientsScreen = () => {
     setLoading(true);
     const combinedIngredients = [...parsedIngredients, ...selectedIngredients];
 
-    fetch(
-      `http://128.61.70.242:5001/find_recipe?ingredients=${encodeURIComponent(
-        combinedIngredients.join(",")
-      )}&dietLabels=${encodeURIComponent(
-        dietLabels.join(",")
-      )}&healthLabels=${encodeURIComponent(
-        healthLabels.join(",")
-      )}&cuisineType=${encodeURIComponent(cuisineType.join(","))}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
+    let paramsArray = [];
+
+    if (combinedIngredients.length > 0) {
+      paramsArray.push(`ingredients=${combinedIngredients.join(",")}`);
+    }
+
+    if (dietLabels.length > 0) {
+      paramsArray.push(`dietLabels=${dietLabels.join(",")}`);
+    }
+
+    if (healthLabels.length > 0) {
+      paramsArray.push(`healthLabels=${healthLabels.join(",")}`);
+    }
+
+    if (cuisineType.length > 0) {
+      paramsArray.push(`cuisineType=${cuisineType.join(",")}`);
+    }
+
+    const params = paramsArray.length > 0 ? `?${paramsArray.join("&")}` : "";
+
+    console.log(params);
+
+    fetch(`http://128.61.70.242:5001/find_recipe${params}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
       .then((response) => {
         if (!response.ok) {
           console.error(response);

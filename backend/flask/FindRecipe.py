@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 from MapIngredients import map_ingredients
 from bson.objectid import ObjectId
+from pymongo.errors import PyMongoError
 
 uri = "mongodb+srv://admin:cH2BkGTbxehvD1wr@recipes.5iqaj.mongodb.net/?retryWrites=true&w=majority&appName=Recipes"
 
@@ -9,7 +10,7 @@ client = MongoClient(uri)
 database = client['Recipes']
 collection = database['Recipes']
 
-def find_recipe(ingredients):
+def find_recipe(ingredients, dietLabels, healthLabels, cuisineType):
     # Ensure ingredients are passed correctly
     if not ingredients or not isinstance(ingredients, list):
         print("Invalid ingredients input. Expected a list.")
@@ -30,6 +31,18 @@ def find_recipe(ingredients):
                 }
             }
         }
+
+        # Only add `dietLabels` if it's non-empty
+        if dietLabels:
+            query['dietLabels'] = dietLabels
+
+        # Only add `healthLabels` if it's non-empty
+        if healthLabels:
+            query['healthLabels'] = healthLabels
+
+        # Only add `cuisineType` if it's non-empty
+        if cuisineType:
+            query['cuisineType'] = cuisineType
 
         # Perform the query and convert the cursor to a list
         results = list(collection.find(query))  # Converts cursor to list
