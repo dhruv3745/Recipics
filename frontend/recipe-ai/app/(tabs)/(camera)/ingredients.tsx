@@ -17,6 +17,10 @@ const IngredientsScreen = () => {
   const [parsedIngredients, setParsedIngredients] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
 
+  const dietLabels: string[] = [];
+  const healthLabels: string[] = [];
+  const cuisineType: string[] = [];
+
   // Function to load selected ingredients from AsyncStorage
   const loadSelectedIngredients = async () => {
     try {
@@ -25,14 +29,34 @@ const IngredientsScreen = () => {
         const { selectedIngredients } = JSON.parse(storedData);
         // Assuming you have a function or array that maps indices to ingredient names
         const ingredientList = [
-          "Butter", "Salt", "Pepper", "Oil", "Flour", "Rice", 
-          "Milk (or substitute)", "Honey", "Garlic (or garlic powder)", 
-          "Vanilla Extract", "Baking Powder", "Baking Soda", 
-          "Cornstarch", "Onion Powder", "Cinnamon", "Cumin", 
-          "Paprika", "Turmeric", "Ginger", "Basil", "Oregano", 
-          "Thyme", "Rosemary", "Parsley"
+          "Butter",
+          "Salt",
+          "Pepper",
+          "Oil",
+          "Flour",
+          "Rice",
+          "Milk (or substitute)",
+          "Honey",
+          "Garlic (or garlic powder)",
+          "Vanilla Extract",
+          "Baking Powder",
+          "Baking Soda",
+          "Cornstarch",
+          "Onion Powder",
+          "Cinnamon",
+          "Cumin",
+          "Paprika",
+          "Turmeric",
+          "Ginger",
+          "Basil",
+          "Oregano",
+          "Thyme",
+          "Rosemary",
+          "Parsley",
         ];
-        const ingredients = selectedIngredients.map((index: number) => ingredientList[index]);
+        const ingredients = selectedIngredients.map(
+          (index: number) => ingredientList[index]
+        );
         setParsedIngredients(ingredients);
       } else {
         // Fallback if no stored data
@@ -60,7 +84,12 @@ const IngredientsScreen = () => {
     fetch(
       `http://128.61.70.242:5001/find_recipe?ingredients=${encodeURIComponent(
         parsedIngredients.join(",")
-      )}`,
+      )}?dietLabels=${encodeURIComponent(
+        dietLabels.join(",")
+      )}?healthLabels=${encodeURIComponent(
+        healthLabels.join(",")
+      )}?cuisineType=${encodeURIComponent(cuisineType.join(","))}`,
+
       {
         method: "GET",
         headers: {

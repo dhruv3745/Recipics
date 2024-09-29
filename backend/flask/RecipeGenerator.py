@@ -43,6 +43,7 @@ def process_image():
 @app.route('/find_recipe', methods=['GET'])
 def find_recipe_route():
     ingredients = [ingredient.strip().lower() for ingredient in request.args.get('ingredients').split(',')]
+    
 
     print("Ingredients: ", ingredients)
 
