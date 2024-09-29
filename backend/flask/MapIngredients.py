@@ -20,7 +20,7 @@ hashmap = {
     "potato": ["charlotte potato", "desiree", "jacket potato", "new potatoes", "pink fir apple", "potato", "potato rosti", "potato wedges", "waxy potato"],
     "oil": ["argan oil", "corn oil", "grapeseed oil", "hazelnut oil", "mustard oil", "olive oil", "peanut oil", "rapeseed oil", "safflower oil", "sesame oil", "soya oil", "sunflower oil", "vegetable oil", "walnut oil"],
     "avacado": ["avocado"],
-    "potatoes": ["new potatoes"]
+    "potatoes": ["new potatoes"],
 }
 
 def map_ingredients(ingredients):
