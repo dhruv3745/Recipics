@@ -1,4 +1,4 @@
-# RecipeAI
+# Recipics
 
 **Problem Statement**
 Our goal is to address three main issues:
